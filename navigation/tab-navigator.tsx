@@ -6,6 +6,7 @@ import { HeaderButton } from '../components/HeaderButton';
 import { TabBarIcon } from '../components/TabBarIcon';
 import One from '../screens/one';
 import Two from '../screens/two';
+import TelaLogin from 'screens/login';
 
 const Tab = createBottomTabNavigator();
 
@@ -18,19 +19,26 @@ export default function TabLayout({ navigation }: Props) {
         tabBarActiveTintColor: 'black',
       }}>
       <Tab.Screen
-        name="One"
-        component={One}
+        name="Um"
+        component={TelaLogin}
         options={{
-          title: 'Tab One',
-          tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
-          headerRight: () => <HeaderButton onPress={() => navigation.navigate('Modal')} />,
+          headerShown: false, // Oculta o título (header)
         }}
       />
+
       <Tab.Screen
-        name="Two"
+        name="Dois"
         component={Two}
         options={{
           title: 'Tab Two',
+          tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
+        }}
+      />
+      <Tab.Screen
+        name="Tres"
+        component={Two}
+        options={{
+          title: 'Tab trsd',
           tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
         }}
       />
