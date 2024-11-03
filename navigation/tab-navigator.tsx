@@ -4,42 +4,41 @@ import { StackScreenProps } from '@react-navigation/stack';
 import { RootStackParamList } from '.';
 import { HeaderButton } from '../components/HeaderButton';
 import { TabBarIcon } from '../components/TabBarIcon';
-import One from '../screens/one';
-import Two from '../screens/two';
-import TelaLogin from 'screens/login';
+
+import TelaRegistro from 'screens/Insulina/registro';
+import Home from 'screens/Home';
+import { FontAwesome } from '@expo/vector-icons';
 
 const Tab = createBottomTabNavigator();
 
-type Props = StackScreenProps<RootStackParamList, 'TabNavigator'>;
+type Props = StackScreenProps<RootStackParamList, 'Rotas'>;
 
-export default function TabLayout({ navigation }: Props) {
+export default function Rotas({ navigation }: Props) {
   return (
     <Tab.Navigator
       screenOptions={{
-        tabBarActiveTintColor: 'black',
+        tabBarActiveTintColor: '#91C788', // Cor da aba ativa
+        tabBarInactiveTintColor: '#A0A0A0', // Cor da aba inativa
       }}>
       <Tab.Screen
-        name="Um"
-        component={TelaLogin}
+        name="Home"
+        component={Home}
+
         options={{
+          tabBarIcon: ({ color, size }) => (
+            <FontAwesome name="home" size={size} color={color} />
+          ),
           headerShown: false, // Oculta o título (header)
         }}
       />
-
       <Tab.Screen
-        name="Dois"
-        component={Two}
+        name="TelaRegistro"
+        component={TelaRegistro}
         options={{
-          title: 'Tab Two',
-          tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
-        }}
-      />
-      <Tab.Screen
-        name="Tres"
-        component={Two}
-        options={{
-          title: 'Tab trsd',
-          tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
+          tabBarIcon: ({ color, size }) => (
+            <FontAwesome name="file-text" size={size} color={color} />
+          ),
+          headerShown: false, // Oculta o título (header)
         }}
       />
     </Tab.Navigator>

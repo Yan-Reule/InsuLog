@@ -1,12 +1,12 @@
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 
-import TabNavigator from './tab-navigator';
-import Modal from '../screens/modal';
+import Rotas from './tab-navigator'; // Certifique-se de que este é o Tab Navigator
+import TelaLogin from 'screens/login';
 
 export type RootStackParamList = {
-  TabNavigator: undefined;
-  Modal: undefined;
+  Rotas: undefined; // Nome da tela como "Rotas"
+  TelaLogin: undefined;
 };
 
 const Stack = createStackNavigator<RootStackParamList>();
@@ -14,16 +14,16 @@ const Stack = createStackNavigator<RootStackParamList>();
 export default function RootStack() {
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="TabNavigator">
+      <Stack.Navigator initialRouteName="TelaLogin">
         <Stack.Screen
-          name="TabNavigator"
-          component={TabNavigator}
+          name="TelaLogin"
+          component={TelaLogin}
           options={{ headerShown: false }}
         />
         <Stack.Screen
-          name="Modal"
-          component={Modal}
-          options={{ presentation: 'modal', headerLeft: () => null }}
+          name="Rotas"
+          component={Rotas} // Certifique-se de que este é o Tab Navigator correto
+          options={{ headerShown: false }}
         />
       </Stack.Navigator>
     </NavigationContainer>
