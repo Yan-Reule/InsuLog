@@ -2,8 +2,78 @@ import { FontAwesome } from "@expo/vector-icons";
 import navigation from "navigation";
 import { View, Text, TouchableOpacity } from "react-native";
 import { Props } from "./login";
+import { getRegistroGlicose } from './services/api'
+import { useCallback, useEffect, useState } from "react";
+import { useFocusEffect } from "@react-navigation/native";
+
+interface IRegistros {
+    data_hora: string;
+    id_periodo: number;
+    id_registro: number;
+    id_usuario: number;
+    nivel_glicose: string;
+    tipo_insulina: string | null;
+    unidade_insulina: string | null;
+}
 
 export default function Home({ navigation }: Props): React.ReactNode {
+    const [registros, setRegistros] = useState<IRegistros[]>([]);
+    const [verMaisAberto, setVerMaisAberto] = useState<boolean>(false)
+
+    // Função para buscar usuários
+    useEffect(() => {
+        console.log('buscando')
+        const buscaRegistros = async () => {
+            try {
+                const response = await getRegistroGlicose(); // Busca os usuários da API
+                setRegistros(response); // Atualiza o estado com os usuários recebidos
+                console.log(response)
+            } catch (error) {
+                console.error('Erro ao buscar Registros:', error);
+            };
+        }
+        buscaRegistros();
+    }, []);
+
+    const buscaRegistros = async () => {
+        try {
+            const response = await getRegistroGlicose(); // Busca os registros da API
+            setRegistros(response); // Atualiza o estado com os registros recebidos
+            console.log(response);
+        } catch (error) {
+            console.error('Erro ao buscar Registros:', error);
+        }
+    };
+
+    // Chama a função buscaRegistros quando a tela ganhar foco
+    useFocusEffect(
+        useCallback(() => {
+            buscaRegistros();
+        }, [])
+    );
+
+    const formatDataHora = (dataHora: string) => {
+        const dateObj = new Date(dataHora);
+
+        // Obter dia e mês com dois dígitos
+        const dia = dateObj.getDate().toString().padStart(2, '0');
+        const mes = (dateObj.getMonth() + 1).toString().padStart(2, '0');
+
+        // Obter horas e minutos com dois dígitos
+        const horas = dateObj.getHours().toString().padStart(2, '0');
+        const minutos = dateObj.getMinutes().toString().padStart(2, '0');
+
+        // Formatar as strings
+        const dataFormatada = `${dia}/${mes}`;
+        const horaFormatada = `${horas}:${minutos}`;
+
+        return { data: dataFormatada, hora: horaFormatada };
+    };
+
+    const limitaLista = () => {
+        setRegistros(registros.slice(0, 3))
+    }
+
     return (
         <View className="flex-1 bg-white ">
 
@@ -29,31 +99,86 @@ export default function Home({ navigation }: Props): React.ReactNode {
 
                 {/* Seção de registros recentes */}
                 <Text className="text-lg font-bold mt-6">Registros recentes</Text>
+                <View className="mt-2 ">
+                    {registros.length > 0 ?
 
-                <View className="mt-4 space-y-3">
-                    {/* Registro 1 */}
-                    <View className="flex-row justify-between items-center bg-gray-100 px-4 py-2 rounded-md shadow-sm">
-                        <Text className="text-lg font-semibold">21:30</Text>
-                        <View className="flex-row items-center">
-                            <FontAwesome name="circle" size={8} color="green" style={{ marginRight: 5 }} />
-                            <Text className="text-gray-700">95 mg/dL</Text>
-                        </View>
-                        <Text className="text-gray-500">20/03</Text>
-                    </View>
+                        registros.map((valor, index, lista) => {
+                            const { data, hora } = formatDataHora(valor.data_hora);
+                            return (
+                                <View
+                                    key={valor.id_registro || index}
+                                >
+                                    <TouchableOpacity
+                                        className={`
+                                        py-2 pr-4 pl-2 bg-gray-100 flex-row justify-between items-center
+                                        ${index + 1 === lista.length ? 'rounded-b-lg' : ''} ${index === 0 ? 'rounded-t-lg' : ''}`}
+                                        onPress={() => {
+                                            console.log({
+                                                modoTela: 'Manipular',
 
-                    {/* Registro 2 */}
-                    <View className="flex-row justify-between items-center bg-gray-100 px-4 py-2 rounded-md shadow-sm">
-                        <Text className="text-lg font-semibold">18:00</Text>
-                        <View className="flex-row items-center">
-                            <FontAwesome name="circle" size={8} color="red" style={{ marginRight: 5 }} />
-                            <Text className="text-gray-700">58 mg/dL</Text>
+                                                PidRegistro: valor.id_registro,
+                                                PidUsuario: valor.id_usuario,
+                                                PnivelGlicose: valor.nivel_glicose,
+                                                PdataHora: valor.data_hora,
+                                                PidPeriodo: valor.id_periodo,
+                                                PtipoInsulina: valor.tipo_insulina,
+                                                Punidade_insulina: String(valor.unidade_insulina),
+                                            })
+                                            navigation.navigate('TelaRegistro', {
+                                                modoTela: 'Manipular',
+
+                                                PidRegistro: valor.id_registro,
+                                                PidUsuario: valor.id_usuario,
+                                                PnivelGlicose: valor.nivel_glicose,
+                                                PdataHora: valor.data_hora,
+                                                PidPeriodo: valor.id_periodo,
+                                                PtipoInsulina: valor.tipo_insulina,
+                                                Punidade_insulina: String(valor.unidade_insulina),
+                                            })
+                                        }}>
+                                        <Text className="text-lg ml-1 text-black font-semibold">{hora}</Text>
+
+                                        <View className="flex-row items-center pr-5">
+                                            <View
+                                                className={`w-2 h-2 rounded-full ${Number(valor.nivel_glicose) > 70 ? 'bg-green-600' : 'bg-red-500'
+                                                    }`}
+                                            />
+                                            <Text className="ml-1 text-lg">{valor.nivel_glicose}</Text>
+                                            <Text className="ml-1 text-lg">mg/dL</Text>
+                                        </View>
+                                        <Text className="text-md text-gray-500">{data}</Text>
+                                    </TouchableOpacity>
+                                </View>
+                            );
+                        })
+                        :
+                        <View className={`
+                            py-2 pr-4 pl-2 bg-gray-100 flex-row justify-between items-center
+                            `}
+                        >
+                            <Text>
+                                Sem Registros..
+                            </Text>
                         </View>
-                        <Text className="text-gray-500">20/03</Text>
-                    </View>
+                    }
                 </View>
+                <TouchableOpacity
+                    className=''
+                    onPress={() => {
+                        if (registros.length > 0) {
+                            setVerMaisAberto(!verMaisAberto)
 
-                {/* Ver mais */}
-                <Text className="text-center text-gray-500 mt-4">ver mais</Text>
+                            if (verMaisAberto) {
+                                buscaRegistros();
+                            } else {
+
+                                limitaLista()
+                            }
+                        }
+                    }}>
+
+                    <Text className="text-center text-lg">ver mais</Text>
+                </TouchableOpacity>
             </View>
 
             {/* Botão Novo Registro */}

@@ -3,6 +3,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 
 import Rotas from './tab-navigator'; // Certifique-se de que este é o Tab Navigator
 import TelaLogin from 'screens/login';
+import Toast from 'react-native-toast-message';
 
 export type RootStackParamList = {
   Rotas: undefined; // Nome da tela como "Rotas"
@@ -26,6 +27,7 @@ export default function RootStack() {
           options={{ headerShown: false }}
         />
       </Stack.Navigator>
+      <Toast />
     </NavigationContainer>
   );
 }
