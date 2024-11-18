@@ -86,7 +86,8 @@ export default function TelaRegistro({ route }: TelaRegistroProps) {
     }, [unidade_insulina]);
 
     // Função para buscar períodos
-    useEffect(() => {
+    useEffect(() => { 
+        
         const fetchPeriodos = async () => {
             try {
                 const response = await getPeriodo(); // Busca os períodos da API
