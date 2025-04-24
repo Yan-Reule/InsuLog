@@ -26,7 +26,7 @@ type RootStackParamList = {
 type TelaRegistroRouteProp = RouteProp<RootStackParamList, 'TelaRegistro'>;
 
 interface TelaRegistroProps {
-    route: TelaRegistroRouteProp;
+    route?: TelaRegistroRouteProp;
 }
 
 export default function TelaRegistro({ route }: TelaRegistroProps) {
@@ -41,7 +41,7 @@ export default function TelaRegistro({ route }: TelaRegistroProps) {
         PtipoInsulina,
         Punidade_insulina,
         modoTela
-    } = route.params || {}; // Certifique-se de que os parâmetros existem
+    } = route?.params || {}; // Certifique-se de que os parâmetros existem
 
     const [nivelGlicose, setNivelGlicose] = useState('');
     const [dataHora, setDataHora] = useState(new Date());
@@ -206,7 +206,7 @@ export default function TelaRegistro({ route }: TelaRegistroProps) {
 
 
     return (
-        <View className="flex-1  relative">
+        <View className="flex-1 bg-white relative">
             {/* Cabeçalho */}
             <View className="bg-[#5C8354] pt-9 pb-3 px-6 rounded-t-lg">
                 <Text className="text-white text-4xl font-bold">Registro</Text>

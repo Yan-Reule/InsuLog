@@ -9,7 +9,7 @@ export type Props = {
   navigation: NavigationProp<any>; // Substitua `any` pelo tipo correto da navegação, se você estiver usando um tipo específico
 };
 
-export default function TelaLogin({ navigation }: Props): React.ReactNode {
+export default function TelaInicial({ navigation }: Props): React.ReactNode {
     return (
         <View className="bg-white h-full flex flex-col justify-between">
             <View className="flex-1 flex justify-center items-center">
@@ -50,7 +50,7 @@ export default function TelaLogin({ navigation }: Props): React.ReactNode {
                 <View className="border-2 border-[#1977F3] py-1 h-[40px] mx-8 my-1 flex-row items-center justify-center">
                     <TouchableOpacity 
                         className="w-full h-full flex-row items-center justify-center"
-                        onPress={() => console.log('botão 2')}
+                        onPress={() => navigation.navigate('TelaNovoAlarme')}
                     >
                         <FontAwesome5 name="facebook" size={24} color="#1977F3" />
                         <Text className="ml-2 text-[#1977F3] font-semibold">Entrar com Facebook</Text>
@@ -61,7 +61,7 @@ export default function TelaLogin({ navigation }: Props): React.ReactNode {
                 <View className="border-2 border-[#7CAC73] py-1 h-[40px] mx-8 my-1">
                     <TouchableOpacity 
                         className="w-full h-full items-center justify-center"
-                        onPress={() => console.log('botão 3')}
+                        onPress={() => navigation.navigate('TelaLogin')}
                     >
                         <Text className="text-[#7CAC73] font-semibold">Fazer login</Text>
                     </TouchableOpacity>
@@ -71,7 +71,7 @@ export default function TelaLogin({ navigation }: Props): React.ReactNode {
                 <View className="border-2 border-[#7CAC73] bg-[#7CAC73] h-[40px] mx-8 my-1 items-center justify-center">
                     <TouchableOpacity 
                         className="w-full h-full items-center justify-center"
-                        onPress={() => console.log('botão 4')}
+                        onPress={() => navigation.navigate('TelaCadastro')}
                     >
                         <Text className="text-center font-semibold text-white">Cadastrar conta</Text>
                     </TouchableOpacity>

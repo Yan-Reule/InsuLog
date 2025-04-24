@@ -8,6 +8,7 @@ import { TabBarIcon } from '../components/TabBarIcon';
 import TelaRegistro from 'screens/Insulina/registro';
 import Home from 'screens/Home';
 import { FontAwesome } from '@expo/vector-icons';
+import TelaGrafico from 'screens/grafico';
 
 const Tab = createBottomTabNavigator();
 
@@ -27,6 +28,17 @@ export default function Rotas({ navigation }: Props) {
         options={{
           tabBarIcon: ({ color, size }) => (
             <FontAwesome name="home" size={size} color={color} />
+          ),
+          headerShown: false, // Oculta o título (header)
+        }}
+      />
+      <Tab.Screen
+        name="TelaGrafico"
+        component={TelaGrafico}
+
+        options={{
+          tabBarIcon: ({ color, size }) => (
+            <FontAwesome name="pie-chart" size={size} color={color} />
           ),
           headerShown: false, // Oculta o título (header)
         }}
