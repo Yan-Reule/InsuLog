@@ -9,6 +9,8 @@ import TelaRegistro from 'screens/Insulina/registro';
 import Home from 'screens/Home';
 import { FontAwesome } from '@expo/vector-icons';
 import TelaGrafico from 'screens/grafico';
+import Relatorios from 'screens/relatorio';
+import Opcoes from 'screens/opcoes';
 
 const Tab = createBottomTabNavigator();
 
@@ -53,6 +55,26 @@ export default function Rotas({ navigation }: Props) {
           headerShown: false, // Oculta o título (header)
         }}
       />
+      <Tab.Screen
+        name="Relatorios"
+        component={Relatorios}
+        options={{
+          tabBarIcon: ({ color, size }) => (
+            <FontAwesome name="bar-chart" size={size} color={color} />
+          ),
+          headerShown: false, // Oculta o título (header)
+        }}
+      />
+      <Tab.Screen
+        name="Opcoes"
+        component={Opcoes}
+        options={{
+          tabBarIcon: ({ color, size }) => <FontAwesome name="cogs" size={size} color={color} />,
+          headerShown: false, // Oculta o título (header)
+        }}
+      />
     </Tab.Navigator>
   );
 }
+
+// Note: The suggested code change "expo install expo-linear-gradient" is a command to install a package and does not directly modify the code in this file.
