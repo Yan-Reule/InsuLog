@@ -33,6 +33,7 @@ export default function TelaGrafico({ navigation }: Props): React.ReactNode {
                         source={require('../../assets/Grafico.png')}
                         style={{ width: 320, height: 180, resizeMode: 'contain' }}
                     />
+                    
                 </View>
 
                 <Text className="text-xl font-bold mb-2">Exportar relatório</Text>
